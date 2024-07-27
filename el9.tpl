@@ -1,13 +1,14 @@
-config_opts['root'] = 'terra-el9-{{ target_arch }}'
-config_opts['dist'] = 'el9'  # only useful for --resultdir variable subst
+config_opts['root'] = 'terra-{{ releasever }}-{{ target_arch }}'
 config_opts['package_manager'] = 'dnf5'
 config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build'
 config_opts['plugin_conf']['root_cache_enable'] = True
 config_opts['plugin_conf']['yum_cache_enable'] = True
 config_opts['plugin_conf']['ccache_enable'] = True
 config_opts['plugin_conf']['ccache_opts']['compress'] = 'on'
 config_opts['plugin_conf']['ccache_opts']['max_cache_size'] = '10G'
 config_opts['chroot_setup_cmd'] = 'install bash bzip2 coreutils cpio diffutils redhat-release findutils gawk glibc-minimal-langpack grep gzip info patch redhat-rpm-config rpm-build sed tar unzip util-linux which xz'
+config_opts['dist'] = 'el9'  # only useful for --resultdir variable subst
 config_opts['releasever'] = 'el9'
 config_opts['bootstrap_image'] = 'quay.io/almalinuxorg/almalinux:9'
 
@@ -155,4 +156,3 @@ gpgcheck=1
 gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
 """
-
