@@ -1,5 +1,5 @@
-config_opts['root'] = 'terra-{{ releasever }}-{{ target_arch }}'
-config_opts['dist'] = 'fc{{ releasever }}'  # only useful for --resultdir variable subst
+config_opts['root'] = 'terra-el9-{{ target_arch }}'
+config_opts['dist'] = 'el9'  # only useful for --resultdir variable subst
 config_opts['package_manager'] = 'dnf5'
 config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
 config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build'
@@ -10,9 +10,9 @@ config_opts['plugin_conf']['ccache_opts']['compress'] = 'on'
 config_opts['plugin_conf']['ccache_opts']['max_cache_size'] = '10G'
 config_opts['chroot_setup_cmd'] = 'install bash bzip2 coreutils cpio diffutils redhat-release findutils gawk glibc-minimal-langpack grep gzip info patch redhat-rpm-config rpm-build sed tar unzip util-linux which xz'
 config_opts['dist'] = 'el9'  # only useful for --resultdir variable subst
-config_opts['releasever'] = '9'
+config_opts['releasever'] = 'el9'
 config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
-config_opts['bootstrap_image'] = 'quay.io/rockylinux/rockylinux:9'
+config_opts['bootstrap_image'] = 'quay.io/almalinuxorg/almalinux:9'
 
 
 config_opts['dnf.conf'] = """
@@ -37,228 +37,124 @@ user_agent={{ user_agent }}
 
 
 [baseos]
-name=Rocky Linux $releasever - BaseOS
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=BaseOS-$releasever
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/BaseOS/$basearch/os/
-gpgcheck=1
+name=AlmaLinux $releasever - BaseOS
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/baseos
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/BaseOS/$basearch/os/
 enabled=1
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgcheck=1
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+skip_if_unavailable=False
 
 [appstream]
-name=Rocky Linux $releasever - AppStream
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=AppStream-$releasever
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/AppStream/$basearch/os/
-gpgcheck=1
+name=AlmaLinux $releasever - AppStream
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/appstream
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/AppStream/$basearch/os/
 enabled=1
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgcheck=1
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
 [crb]
-name=Rocky Linux $releasever - CRB
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=CRB-$releasever
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/CRB/$basearch/os/
-gpgcheck=1
+name=AlmaLinux $releasever - CRB
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/crb
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/CRB/$basearch/os/
 enabled=1
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgcheck=1
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
 [extras]
-name=Rocky Linux $releasever - Extras
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=extras-$releasever
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/extras/$basearch/os/
-gpgcheck=1
+name=AlmaLinux $releasever - Extras
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/extras
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/extras/$basearch/os/
 enabled=1
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgcheck=1
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
 [devel]
-name=Rocky Linux $releasever - Devel WARNING! FOR BUILDROOT ONLY DO NOT LEAVE ENABLED
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=devel-$releasever
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/devel/$basearch/os/
-gpgcheck=1
+name=AlmaLinux $releasever - Devel (WARNING: UNSUPPORTED - FOR BUILDROOT USE ONLY!)
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/devel
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/devel/$basearch/os/
 enabled=0
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgcheck=1
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
-[highavailability]
-name=Rocky Linux $releasever - High Availability
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=HighAvailability-$releasever
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/HighAvailability/$basearch/os/
-gpgcheck=1
+[baseos-debuginfo]
+name=AlmaLinux $releasever - BaseOS debuginfo
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/baseos-debuginfo
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/BaseOS/debug/$basearch/
 enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgcheck=1
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
-[resilientstorage]
-name=Rocky Linux $releasever - Resilient Storage
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=ResilientStorage-$releasever
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/ResilientStorage/$basearch/os/
-gpgcheck=1
+[appstream-debuginfo]
+name=AlmaLinux $releasever - AppStream debuginfo
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/appstream-debuginfo
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/AppStream/debug/$basearch/
 enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgcheck=1
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
-[nfv]
-name=Rocky Linux $releasever - NFV
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=NFV-$releasever
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/NFV/$basearch/os/
-gpgcheck=1
+[crb-debuginfo]
+name=AlmaLinux $releasever - CRB debuginfo
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/crb-debuginfo
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/CRB/debug/$basearch/
 enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgcheck=1
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
-[rt]
-name=Rocky Linux $releasever - Realtime
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=RT-$releasever
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/RT/$basearch/os/
-gpgcheck=1
+[extras-debuginfo]
+name=AlmaLinux $releasever - Extras debuginfo
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/extras-debuginfo
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/extras/debug/$basearch/
 enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgcheck=1
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
-[baseos-debug]
-name=Rocky Linux $releasever - BaseOS - Debug
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=BaseOS-$releasever-debug
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/BaseOS/$basearch/debug/tree/
-gpgcheck=1
+[devel-debuginfo]
+name=AlmaLinux $releasever - Devel debuginfo
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/devel-debuginfo
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/devel/debug/$basearch/
 enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgcheck=1
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
 [baseos-source]
-name=Rocky Linux $releasever - BaseOS - Source
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=source&repo=BaseOS-$releasever-source
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/BaseOS/source/tree/
-gpgcheck=1
+name=AlmaLinux $releasever - BaseOS Source
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/baseos-source
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/BaseOS/Source/
 enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
-
-[appstream-debug]
-name=Rocky Linux $releasever - AppStream - Debug
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=AppStream-$releasever-debug
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/AppStream/$basearch/debug/tree/
 gpgcheck=1
-enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
 [appstream-source]
-name=Rocky Linux $releasever - AppStream - Source
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=source&repo=AppStream-$releasever-source
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/AppStream/source/tree/
-gpgcheck=1
+name=AlmaLinux $releasever - AppStream Source
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/appstream-source
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/AppStream/Source/
 enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
-
-[crb-debug]
-name=Rocky Linux $releasever - CRB - Debug
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=CRB-$releasever-debug
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/CRB/$basearch/debug/tree/
 gpgcheck=1
-enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
 [crb-source]
-name=Rocky Linux $releasever - CRB - Source
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=source&repo=CRB-$releasever-source
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/CRB/source/tree/
-gpgcheck=1
+name=AlmaLinux $releasever - CRB Source
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/crb-source
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/CRB/Source/
 enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
-
-[extras-debug]
-name=Rocky Linux $releasever - Extras Debug
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=extras-$releasever-debug
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/extras/$basearch/debug/tree/
 gpgcheck=1
-enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
 [extras-source]
-name=Rocky Linux $releasever - Extras Source
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=extras-$releasever-source
-#baseurl=http://dl.rockylinux.org/pub/rocky/$releasever/extras/source/tree/
-gpgcheck=1
+name=AlmaLinux $releasever - Extras Source
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/extras-source
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/extras/Source/
 enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
-
-[highavailability-debug]
-name=Rocky Linux $releasever - High Availability - Debug
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=HighAvailability-$releasever-debug$rltype
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/HighAvailability/$basearch/debug/tree/
 gpgcheck=1
-enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
-[highavailability-source]
-name=Rocky Linux $releasever - High Availability - Source
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=source&repo=HighAvailability-$releasever-source$rltype
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/HighAvailability/source/tree/
+[devel-source]
+name=AlmaLinux $releasever - Devel Source
+mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/devel-source
+# baseurl=https://repo.almalinux.org/almalinux/$releasever/devel/Source/
+enabled=0
 gpgcheck=1
-enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
-
-[resilientstorage-debug]
-name=Rocky Linux $releasever - Resilient Storage - Debug
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=ResilientStorage-$releasever-debug$rltype
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/ResilientStorage/$basearch/debug/tree/
-gpgcheck=1
-enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
-
-[resilientstorage-source]
-name=Rocky Linux $releasever - Resilient Storage - Source
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=source&repo=ResilientStorage-$releasever-source$rltype
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/ResilientStorage/source/tree/
-gpgcheck=1
-enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
-
-[nfv-debug]
-name=Rocky Linux $releasever - NFV Debug
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=RT-$releasever-debug$rltype
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/NFV/$basearch/debug/tree/
-gpgcheck=1
-enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
-
-[nfv-source]
-name=Rocky Linux $releasever - NFV Source
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=RT-$releasever-source$rltype
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/NFV/source/tree/
-gpgcheck=1
-enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
-
-[rt-debug]
-name=Rocky Linux $releasever - Realtime Debug
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=RT-$releasever-debug$rltype
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/RT/$basearch/debug/tree/
-gpgcheck=1
-enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
-
-[rt-source]
-name=Rocky Linux $releasever - Realtime Source
-mirrorlist=https://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=RT-$releasever-source$rltype
-#baseurl=http://dl.rockylinux.org/$contentdir/$releasever/RT/source/tree/
-gpgcheck=1
-enabled=0
-metadata_expire=6h
-gpgkey=file:///usr/share/distribution-gpg-keys/rocky/RPM-GPG-KEY-Rocky-9
-
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
 
 """
