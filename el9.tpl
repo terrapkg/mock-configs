@@ -1,5 +1,5 @@
 config_opts['root'] = 'terra-{{ releasever }}-{{ target_arch }}'
-config_opts['package_manager'] = 'dnf5'
+config_opts['package_manager'] = 'dnf'
 config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
 config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build'
 config_opts['plugin_conf']['root_cache_enable'] = True
