@@ -29,7 +29,7 @@ mdpolicy=group:primary
 best=1
 install_weak_deps=0
 protected_packages=
-module_platform_id=platform:el9
+module_platform_id=platform:el{{ releasever }}
 user_agent={{ user_agent }}
 
 
@@ -39,7 +39,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/baseos
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/BaseOS/$basearch/os/
 enabled=1
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 skip_if_unavailable=False
 
 [appstream]
@@ -48,7 +48,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/appstream
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/AppStream/$basearch/os/
 enabled=1
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [crb]
 name=AlmaLinux $releasever - CRB
@@ -56,7 +56,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/crb
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/CRB/$basearch/os/
 enabled=1
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [extras]
 name=AlmaLinux $releasever - Extras
@@ -64,7 +64,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/extras
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/extras/$basearch/os/
 enabled=1
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [devel]
 name=AlmaLinux $releasever - Devel (WARNING: UNSUPPORTED - FOR BUILDROOT USE ONLY!)
@@ -72,7 +72,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/devel
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/devel/$basearch/os/
 enabled=0
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [baseos-debuginfo]
 name=AlmaLinux $releasever - BaseOS debuginfo
@@ -80,7 +80,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/baseos-debuginfo
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/BaseOS/debug/$basearch/
 enabled=0
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [appstream-debuginfo]
 name=AlmaLinux $releasever - AppStream debuginfo
@@ -88,7 +88,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/appstream-debugi
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/AppStream/debug/$basearch/
 enabled=0
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [crb-debuginfo]
 name=AlmaLinux $releasever - CRB debuginfo
@@ -96,7 +96,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/crb-debuginfo
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/CRB/debug/$basearch/
 enabled=0
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [extras-debuginfo]
 name=AlmaLinux $releasever - Extras debuginfo
@@ -104,7 +104,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/extras-debuginfo
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/extras/debug/$basearch/
 enabled=0
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [devel-debuginfo]
 name=AlmaLinux $releasever - Devel debuginfo
@@ -112,7 +112,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/devel-debuginfo
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/devel/debug/$basearch/
 enabled=0
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [baseos-source]
 name=AlmaLinux $releasever - BaseOS Source
@@ -120,7 +120,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/baseos-source
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/BaseOS/Source/
 enabled=0
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [appstream-source]
 name=AlmaLinux $releasever - AppStream Source
@@ -128,7 +128,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/appstream-source
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/AppStream/Source/
 enabled=0
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [crb-source]
 name=AlmaLinux $releasever - CRB Source
@@ -136,7 +136,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/crb-source
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/CRB/Source/
 enabled=0
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [extras-source]
 name=AlmaLinux $releasever - Extras Source
@@ -144,7 +144,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/extras-source
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/extras/Source/
 enabled=0
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [devel-source]
 name=AlmaLinux $releasever - Devel Source
@@ -152,7 +152,7 @@ mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/devel-source
 # baseurl=https://repo.almalinux.org/almalinux/$releasever/devel/Source/
 enabled=0
 gpgcheck=1
-gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-9
+gpgkey=file:///usr/share/distribution-gpg-keys/alma/RPM-GPG-KEY-AlmaLinux-{{ releasever }}
 
 [epel]
 name=Extra Packages for Enterprise Linux $releasever - $basearch
