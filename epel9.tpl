@@ -1,5 +1,3 @@
-config_opts['chroot_setup_cmd'] += " epel-rpm-macros"
-
 config_opts['dnf.conf'] += """
 
 [epel]
