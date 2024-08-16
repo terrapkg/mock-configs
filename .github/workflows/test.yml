@@ -1,0 +1,51 @@
+name: Build RPM
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  merge_group:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/terrapkg/builder:frawhide
+      options: --cap-add=SYS_ADMIN --privileged
+    steps:
+      - name: Checkout Terra repository
+        uses: actions/checkout@v4
+        with:
+          repository: terrapkg/packages
+          fetch-depth: 0
+      - name: Checkout Mock Configs
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: mock-configs
+
+      - name: Set up git repository
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Include custom build template instead of package default
+        run: cp -v mock-configs/terra.tpl /etc/mock/templates/terra.tpl
+
+      - name: Build with Andaman
+        run: anda build terra/mock-configs -c mock-configs/terra-rawhide-x86_64.cfg
+
+      - name: Generating artifact name
+        id: art
+        run: |
+          NAME=${{ matrix.pkg.pkg }}-${{ matrix.pkg.arch }}-${{ matrix.version }}
+          x=${NAME//\//@}
+          echo "name=$x" >> $GITHUB_OUTPUT
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.art.outputs.name }}
+          compression-level: 0 # The RPMs are already compressed :p
+          path: |
+            anda-build/rpm/rpms/*
+            anda-build/rpm/srpm/*
