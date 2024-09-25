@@ -9,7 +9,7 @@ config_opts['plugin_conf']['ccache_opts']['compress'] = 'on'
 config_opts['plugin_conf']['ccache_opts']['max_cache_size'] = '10G'
 config_opts['chroot_setup_cmd'] = 'install bash bzip2 coreutils cpio diffutils redhat-release findutils gawk glibc-minimal-langpack grep gzip info patch redhat-rpm-config rpm-build sed tar unzip util-linux which xz epel-rpm-macros'
 config_opts['dist'] = 'el{{ releasever }}-dev'  # only useful for --resultdir variable subst
-config_opts['bootstrap_image'] = 'quay.io/centos/centos:stream{{ releasever }}'
+config_opts['bootstrap_image'] = 'quay.io/centos/centos:stream{{ releasever }}-development'
 
 
 config_opts['dnf.conf'] = """
