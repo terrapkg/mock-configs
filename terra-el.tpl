@@ -37,24 +37,21 @@ user_agent={{ user_agent }}
 
 [baseos]
 name=Red Hat Enterprise Linux {{ releasever }} for {{ target_arch }} - BaseOS (RPMs)
-baseurl=https://cdn.redhat.com/content/dist/rhel{{ releasever }}/{{ releasever }}/{{ target_arch }}/baseos/os
-sslverify=1
-sslcacert=/etc/rhsm-host/ca/redhat-uep.pem
+baseurl=https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi{{ releasever }}/{{ target_arch }}/baseos/os
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+gpcheck=1
 
 [appstream]
 name=Red Hat Enterprise Linux {{ releasever }} for {{ target_arch }} - AppStream (RPMs)
-baseurl=https://cdn.redhat.com/content/dist/rhel{{ releasever }}/{{ releasever }}/{{ target_arch }}/appstream/os
-sslverify=1
-sslcacert=/etc/rhsm-host/ca/redhat-uep.pem
+baseurl=https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi{{ releasever }}/{{ target_arch }}/appstream/os
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+gpgcheck=1
 
 [crb]
 name=Red Hat CodeReady Linux Builder for RHEL {{ releasever }} {{ target_arch }} (RPMs)
-baseurl=https://cdn.redhat.com/content/dist/rhel{{ releasever }}/{{ releasever }}/{{ target_arch }}/codeready-builder/os
-sslverify=1
-sslcacert=/etc/rhsm-host/ca/redhat-uep.pem
+baseurl=https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi{{ releasever }}/{{ target_arch }}/codeready-builder/os
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+gpgcheck=1
 
 [terra]
 name=Terra EL $releasever
