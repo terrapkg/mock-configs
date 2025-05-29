@@ -36,31 +36,25 @@ user_agent={{ user_agent }}
 
 
 [baseos]
-name=Red Hat Enterprise Linux {{ releasever_major }} for {{ target_arch }} - BaseOS (RPMs)
-baseurl=https://cdn.redhat.com/content/dist/rhel{{ releasever_major }}/{{ releasever }}/{{ target_arch }}/baseos/os/
+name=Red Hat Enterprise Linux {{ releasever }} for {{ target_arch }} - BaseOS (RPMs)
+baseurl=https://cdn.redhat.com/content/dist/rhel{{ releasever }}/{{ releasever }}/{{ target_arch }}/baseos/os
 sslverify=1
-sslcacert=/etc/rhsm/ca/redhat-uep.pem
-sslclientkey=/etc/pki/entitlement/{{ redhat_subscription_key_id }}-key.pem
-sslclientcert=/etc/pki/entitlement/{{ redhat_subscription_key_id }}.pem
-gpgkey=file:///usr/share/distribution-gpg-keys/redhat/RPM-GPG-KEY-redhat{{ releasever_major }}-release
+sslcacert=/etc/rhsm-host/ca/redhat-uep.pem
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
 [appstream]
-name=Red Hat Enterprise Linux {{ releasever_major }} for {{ target_arch }} - AppStream (RPMs)
-baseurl=https://cdn.redhat.com/content/dist/rhel{{ releasever_major }}/{{ releasever }}/{{ target_arch }}/appstream/os/
+name=Red Hat Enterprise Linux {{ releasever }} for {{ target_arch }} - AppStream (RPMs)
+baseurl=https://cdn.redhat.com/content/dist/rhel{{ releasever }}/{{ releasever }}/{{ target_arch }}/appstream/os
 sslverify=1
-sslcacert=/etc/rhsm/ca/redhat-uep.pem
-sslclientkey=/etc/pki/entitlement/{{ redhat_subscription_key_id }}-key.pem
-sslclientcert=/etc/pki/entitlement/{{ redhat_subscription_key_id }}.pem
-gpgkey=file:///usr/share/distribution-gpg-keys/redhat/RPM-GPG-KEY-redhat{{ releasever_major }}-release
+sslcacert=/etc/rhsm-host/ca/redhat-uep.pem
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
 [crb]
-name=Red Hat CodeReady Linux Builder for RHEL {{ releasever_major }} {{ target_arch }} (RPMs)
-baseurl=https://cdn.redhat.com/content/dist/rhel{{ releasever_major }}/{{ releasever }}/{{ target_arch }}/codeready-builder/os/
+name=Red Hat CodeReady Linux Builder for RHEL {{ releasever }} {{ target_arch }} (RPMs)
+baseurl=https://cdn.redhat.com/content/dist/rhel{{ releasever }}/{{ releasever }}/{{ target_arch }}/codeready-builder/os
 sslverify=1
-sslcacert=/etc/rhsm/ca/redhat-uep.pem
-sslclientkey=/etc/pki/entitlement/{{ redhat_subscription_key_id }}-key.pem
-sslclientcert=/etc/pki/entitlement/{{ redhat_subscription_key_id }}.pem
-gpgkey=file:///usr/share/distribution-gpg-keys/redhat/RPM-GPG-KEY-redhat{{ releasever_major }}-release
+sslcacert=/etc/rhsm-host/ca/redhat-uep.pem
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
 [terra]
 name=Terra EL $releasever
