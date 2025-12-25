@@ -60,6 +60,40 @@ enabled=1
 enabled_metadata=1
 priority=150
 
+[terra-nvidia]
+name=Terra $releasever (NVIDIA)
+metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-nvidia&arch=$basearch
+metadata_expire=6h
+type=rpm
+gpgcheck=1
+gpgkey=https://repos.fyralabs.com/terra$releasever-nvidia/key.asc
+repo_gpgcheck=1
+enabled=0
+enabled_metadata=1
+excludepkgs=dkms-nvidia*
+
+[terra-mesa]
+name=Terra $releasever (Mesa)
+metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-mesa&arch=$basearch
+metadata_expire=6h
+type=rpm
+gpgcheck=1
+gpgkey=https://repos.fyralabs.com/terra$releasever-mesa/key.asc
+repo_gpgcheck=1
+enabled=0
+enabled_metadata=1
+
+[terra-multimedia]
+name=Terra $releasever (Multimedia)
+metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-multimedia&arch=$basearch
+metadata_expire=6h
+type=rpm
+gpgcheck=1
+gpgkey=https://repos.fyralabs.com/terra$releasever-multimedia/key.asc
+repo_gpgcheck=1
+enabled=0
+enabled_metadata=1
+
 {% endif %}
 
 # Only used for multilib builds, pulls straight from fedora koji

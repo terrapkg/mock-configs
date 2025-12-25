@@ -67,6 +67,40 @@ priority=150
 enabled_metadata=1
 metadata_expire=0
 
+[terra-nvidia]
+name=Terra $releasever (NVIDIA)
+metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-nvidia&arch=$basearch
+type=rpm
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://repos.fyralabs.com/terra$releasever-nvidia/key.asc
+enabled=0
+enabled_metadata=1
+metadata_expire=0
+excludepkgs=dkms-nvidia*
+
+[terra-mesa]
+name=Terra $releasever (Mesa)
+metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-mesa&arch=$basearch
+type=rpm
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://repos.fyralabs.com/terra$releasever-mesa/key.asc
+enabled=0
+enabled_metadata=1
+metadata_expire=0
+
+[terra-multimedia]
+name=Terra $releasever (Multimedia)
+metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-multimedia&arch=$basearch
+type=rpm
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://repos.fyralabs.com/terra$releasever-multimedia/key.asc
+enabled=0
+enabled_metadata=1
+metadata_expire=0
+
 [local-rawhide-build]
 name=local-rawhide
 baseurl=https://kojipkgs.fedoraproject.org/repos/rawhide/latest/$basearch/
