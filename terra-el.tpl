@@ -7,7 +7,8 @@ config_opts['plugin_conf']['ccache_enable'] = True
 config_opts['plugin_conf']['ccache_opts']['compress'] = 'on'
 config_opts['plugin_conf']['ccache_opts']['max_cache_size'] = '10G'
 #config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build'
-config_opts['chroot_setup_cmd'] = 'install anda-srpm-macros terra-appstream-helper bash bzip2 coreutils cpio diffutils redhat-release findutils gawk glibc-minimal-langpack grep gzip info patch redhat-rpm-config rpm-build sed tar unzip util-linux which xz epel-rpm-macros epel-release'
+config_opts['chroot_setup_cmd'] = 'install bash bzip2 coreutils cpio diffutils redhat-release findutils gawk glibc-minimal-langpack grep gzip info patch redhat-rpm-config rpm-build sed tar unzip util-linux which xz epel-rpm-macros epel-release'
+config_opts['chroot_additional_packages'] = ['anda-srpm-macros', 'terra-appstream-helper']
 config_opts['dist'] = 'el{{ releasever }}'  # only useful for --resultdir variable subst
 config_opts['bootstrap_image'] = 'ghcr.io/terrapkg/builder:el{{ releasever }}'
 

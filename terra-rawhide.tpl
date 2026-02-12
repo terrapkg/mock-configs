@@ -10,7 +10,8 @@ config_opts['use_bootstrap'] = False
 #config_opts['bootstrap_image'] = 'ghcr.io/terrapkg/builder:f{{ releasever }}'
 #config_opts['bootstrap_image_ready'] = True
 config_opts['mirrored'] = config_opts['target_arch'] != 'i686'
-config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build anda-srpm-macros terra-appstream-helper mold'
+config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build'
+config_opts['chroot_additional_packages'] = ['anda-srpm-macros', 'terra-appstream-helper', 'mold']
 config_opts['plugin_conf']['root_cache_enable'] = True
 config_opts['plugin_conf']['yum_cache_enable'] = True
 config_opts['plugin_conf']['ccache_enable'] = config_opts['target_arch'] != 'i686'
