@@ -44,7 +44,7 @@ jobs:
       - name: Generating artifact name
         id: art
         run: |
-          NAME=terra-mock-configs-${{ matrix.arch }}-f${{ matrix.releasever }}
+          NAME=terra-mock-configs-${{ matrix.arch }}-${{ matrix.releasever }}
           x=${NAME//\//@}
           echo "name=$x" >> $GITHUB_OUTPUT
 
