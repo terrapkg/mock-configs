@@ -12,10 +12,11 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        releasever: [rawhide, 43]
+        releasever: [rawhide, 44, 43, 42]
+        arch: [x86_64, aarch64, i386]
+    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-22.04-arm' || 'ubuntu-latest' }}
     container:
       image: ghcr.io/terrapkg/builder:f${{ matrix.releasever }}
       options: --cap-add=SYS_ADMIN --privileged
@@ -38,12 +39,12 @@ jobs:
         run: cp -v mock-configs/terra*.tpl /etc/mock/templates/
 
       - name: Build with Andaman
-        run: anda build terra/mock-configs -c mock-configs/terra-${{ matrix.releasever }}-x86_64.cfg
+        run: anda build terra/mock-configs -c mock-configs/terra-${{ matrix.releasever }}-${{ matrix.arch }}.cfg
 
       - name: Generating artifact name
         id: art
         run: |
-          NAME=${{ matrix.pkg.pkg }}-${{ matrix.pkg.arch }}-${{ matrix.version }}
+          NAME=terra-mock-configs-${{ matrix.arch }}-${{ matrix.releasever }}
           x=${NAME//\//@}
           echo "name=$x" >> $GITHUB_OUTPUT
 
@@ -56,7 +57,10 @@ jobs:
             anda-build/rpm/srpm/*
 
   build-el10:
-    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        arch: [x86_64, aarch64]
+    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-22.04-arm' || 'ubuntu-latest' }}
     container:
       image: ghcr.io/terrapkg/builder:el10
       options: --cap-add=SYS_ADMIN --privileged
@@ -79,7 +83,7 @@ jobs:
         run: cp -v mock-configs/*.tpl /etc/mock/templates/
 
       - name: Build with Andaman
-        run: anda build terra/mock-configs -c mock-configs/terra-el10-x86_64.cfg
+        run: anda build terra/mock-configs -c mock-configs/terra-el10-${{ matrix.arch }}.cfg
 
       - uses: actions/upload-artifact@v4
         with:
