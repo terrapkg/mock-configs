@@ -44,13 +44,13 @@ jobs:
       - name: Generating artifact name
         id: art
         run: |
-          NAME=terra-mock-configs-${{ matrix.arch }}-${{ matrix.releasever }}
+          NAME=terra-mock-configs-${{ matrix.arch }}-f${{ matrix.releasever }}
           x=${NAME//\//@}
           echo "name=$x" >> $GITHUB_OUTPUT
 
       - uses: actions/upload-artifact@v4
         with:
-          name: mock-configs-f${{ matrix.releasever }}
+          name: ${{ steps.art.outputs.name }}
           compression-level: 0 # The RPMs are already compressed :p
           path: |
             anda-build/rpm/rpms/*
