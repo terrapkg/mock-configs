@@ -107,6 +107,7 @@ name=local-rawhide
 baseurl=https://kojipkgs.fedoraproject.org/repos/rawhide/latest/$basearch/
 cost=2000
 enabled={{ not mirrored }}
+repo_gpgcheck=0
 skip_if_unavailable=False
 
 {% if mirrored %}
