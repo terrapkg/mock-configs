@@ -1,5 +1,5 @@
 config_opts['root'] = 'terra-el{{ releasever }}-{{ target_arch }}'
-config_opts['package_manager'] = 'dnf'
+config_opts['package_manager'] = 'dnf5'
 config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
 config_opts['plugin_conf']['root_cache_enable'] = True
 config_opts['plugin_conf']['yum_cache_enable'] = True
