@@ -17,7 +17,7 @@ jobs:
         releasever: [rawhide, 44, 43, 42]
         arch: [x86_64, aarch64, i386, riscv64]
       fail-fast: false
-    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-22.04-arm' || matrix.arch == 'riscv64' && 'banana-pi-f3' || 'ubuntu-latest' }}
+    runs-on: ${{ (matrix.arch == 'aarch64' && 'ubuntu-22.04-arm') || (matrix.arch == 'riscv64' && 'ubuntu-24.04-riscv') || 'ubuntu-latest' }}
     container:
       image: ghcr.io/terrapkg/builder:f${{ matrix.releasever }}
       options: --cap-add=SYS_ADMIN --privileged
@@ -62,7 +62,7 @@ jobs:
       matrix:
         arch: [x86_64, aarch64, riscv64]
       fail-fast: false
-    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-22.04-arm' || matrix.arch == 'riscv64' && 'banana-pi-f3' || 'ubuntu-latest' }}
+    runs-on: ${{ (matrix.arch == 'aarch64' && 'ubuntu-22.04-arm') || (matrix.arch == 'riscv64' && 'ubuntu-24.04-riscv') || 'ubuntu-latest' }}
     container:
       image: ghcr.io/terrapkg/builder:el10
       options: --cap-add=SYS_ADMIN --privileged
