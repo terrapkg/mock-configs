@@ -42,7 +42,7 @@ type=rpm
 skip_if_unavailable=True
 gpgcheck=1
 repo_gpgcheck=1
-gpgkey=https://repos.fyralabs.com/terra$releasever/key.asc
+gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever
 enabled=1
 enabled_metadata=1
 metadata_expire=4h
@@ -55,7 +55,7 @@ metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-extras&arc
 metadata_expire=6h
 type=rpm
 gpgcheck=1
-gpgkey=https://repos.fyralabs.com/terra$releasever-extras/key.asc
+gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-extras
 repo_gpgcheck=1
 enabled=1
 enabled_metadata=1
@@ -67,7 +67,7 @@ metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-nvidia&arc
 metadata_expire=6h
 type=rpm
 gpgcheck=1
-gpgkey=https://repos.fyralabs.com/terra$releasever-nvidia/key.asc
+gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-nvidia
 repo_gpgcheck=1
 enabled=0
 enabled_metadata=1
@@ -79,7 +79,7 @@ metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-mesa&arch=
 metadata_expire=6h
 type=rpm
 gpgcheck=1
-gpgkey=https://repos.fyralabs.com/terra$releasever-mesa/key.asc
+gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-mesa
 repo_gpgcheck=1
 enabled=0
 enabled_metadata=1
@@ -90,7 +90,7 @@ metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-multimedia
 metadata_expire=6h
 type=rpm
 gpgcheck=1
-gpgkey=https://repos.fyralabs.com/terra$releasever-multimedia/key.asc
+gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-multimedia
 repo_gpgcheck=1
 enabled=0
 enabled_metadata=1
