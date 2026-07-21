@@ -14,7 +14,7 @@ jobs:
   build:
     strategy:
       matrix:
-        releasever: [rawhide, 44, 43, 42]
+        releasever: [rawhide, 45, 44, 43]
         arch: [x86_64, aarch64, i386, riscv64]
       fail-fast: false
     runs-on: ${{ (matrix.arch == 'aarch64' && 'ubuntu-22.04-arm') || (matrix.arch == 'riscv64' && 'ubuntu-24.04-riscv') || 'ubuntu-latest' }}
