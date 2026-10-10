@@ -42,8 +42,8 @@ jobs:
       - name: Validate Mock configs
         run: /usr/bin/python3 -m unittest discover -s mock-configs/tests -v
 
-      - name: Install nocache
-        run: dnf install nocache
+      - name: Install nosync
+        run: dnf install nosync
 
       - name: Build with Andaman
         run: anda build terra/mock-configs -c mock-configs/terra-${{ matrix.releasever }}-${{ matrix.arch }}.cfg
