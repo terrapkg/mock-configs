@@ -2,24 +2,45 @@ config_opts['root'] = 'terra-{{ releasever }}-{{ target_arch }}'
 config_opts['dist'] = 'fc{{ releasever }}'  # only useful for --resultdir variable subst
 config_opts['macros']['%dist'] = '.fc{{ releasever }}'
 config_opts['package_manager'] = 'dnf5'
+config_opts['nosync'] = True
 config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
 config_opts['use_bootstrap'] = False
 #config_opts['bootstrap_image'] = 'ghcr.io/terrapkg/builder:f{{ releasever }}'
 #config_opts['bootstrap_image_ready'] = True
 config_opts['mirrored'] = config_opts['target_arch'] != 'i686'
-config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build'
-config_opts['chroot_additional_packages'] = ['anda-srpm-macros', 'terra-appstream-helper', 'mold']
+config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build /usr/bin/pigz /usr/bin/lbzip2'
+config_opts['chroot_additional_packages'] = ['anda-srpm-macros', 'terra-appstream-helper', 'mold', 'nosync']
 config_opts['plugin_conf']['root_cache_enable'] = True
+# Root caches are host-side; use fast, parallel zstd when installed.
+# Otherwise retain Mock's default compressor (including its pigz fallback).
+import os
+if os.path.exists('/usr/bin/zstd'):
+    config_opts['plugin_conf']['root_cache_opts'].update({
+        'compress_program': '/usr/bin/zstd -T0 -1',
+        'decompress_program': '/usr/bin/zstd -d',
+        'extension': '.zst',
+    })
 config_opts['plugin_conf']['yum_cache_enable'] = True
 config_opts['plugin_conf']['ccache_enable'] = int(config_opts['releasever']) < 44 or int(config_opts['releasever']) >= 44 and config_opts['target_arch'] != 'i686'
 config_opts['plugin_conf']['ccache_opts']['compress'] = 'on'
 config_opts['plugin_conf']['ccache_opts']['max_cache_size'] = '10G'
+config_opts['macros']['%__gzip'] = '/usr/bin/pigz'
+config_opts['macros']['%__bzip2'] = '/usr/bin/lbzip2'
+config_opts['plugin_conf']['tmpfs_enable'] = True
+# Leave RAM for compilation: tmpfs is a limit, not a reservation.
+# Small builders fall back to disk; tune for large packages/concurrent jobs.
+config_opts['plugin_conf']['tmpfs_opts']['required_ram_mb'] = 8192
+config_opts['plugin_conf']['tmpfs_opts']['max_fs_size'] = '50%'
+config_opts['plugin_conf']['tmpfs_opts']['mode'] = '0755'
+config_opts['plugin_conf']['tmpfs_opts']['keep_mounted'] = False
 # repos
 dnf_conf = """
 
 [main]
+# Match the persistent directory mounted by Mock's yum_cache plugin.
 keepcache=1
-debuglevel=2a
+system_cachedir=/var/cache/dnf
+debuglevel=2
 reposdir=/dev/null
 logfile=/var/log/yum.log
 retries=20
