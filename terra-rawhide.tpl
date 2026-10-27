@@ -5,24 +5,58 @@ config_opts['root'] = 'terra-{{ releasever }}-{{ target_arch }}'
 config_opts['dist'] = 'fc{{ releasever }}'  # only useful for --resultdir variable subst
 config_opts['macros']['%dist'] = '.fc{{ releasever }}'
 config_opts['package_manager'] = 'dnf5'
+config_opts['nosync'] = True
 config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
 config_opts['use_bootstrap'] = False
 #config_opts['bootstrap_image'] = 'ghcr.io/terrapkg/builder:f{{ releasever }}'
 #config_opts['bootstrap_image_ready'] = True
 config_opts['mirrored'] = config_opts['target_arch'] != 'i686'
-config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build'
+config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build /usr/bin/pigz /usr/bin/lbzip2'
 config_opts['chroot_additional_packages'] = ['anda-srpm-macros', 'terra-appstream-helper', 'lld']
 config_opts['plugin_conf']['root_cache_enable'] = True
+# Host-side pzstd permits parallel decoding as well as compression.
+# Keep a separate extension so an old single-frame cache is regenerated.
+import os
+if os.path.exists('/usr/bin/pzstd'):
+    config_opts['plugin_conf']['root_cache_opts'].update({
+        'compress_program': '/usr/bin/pzstd -1',
+        'decompress_program': '/usr/bin/pzstd -d',
+        'extension': '.pzst',
+    })
+elif os.path.exists('/usr/bin/zstd'):
+    config_opts['plugin_conf']['root_cache_opts'].update({
+        'compress_program': '/usr/bin/zstd -T0 -1',
+        'decompress_program': '/usr/bin/zstd -d',
+        'extension': '.zst',
+    })
 config_opts['plugin_conf']['yum_cache_enable'] = True
 config_opts['plugin_conf']['ccache_enable'] = config_opts['target_arch'] != 'i686'
 config_opts['plugin_conf']['ccache_opts']['compress'] = 'on'
 config_opts['plugin_conf']['ccache_opts']['max_cache_size'] = '10G'
+# Bake the compiler-cache tool into the baseline instead of reinstalling it
+# in the first BuildRequires transaction after every clean root restore.
+if config_opts['plugin_conf']['ccache_enable']:
+    config_opts['chroot_additional_packages'].append('ccache')
+config_opts['macros']['%__gzip'] = '/usr/bin/pigz'
+# Fedora's brp-compress hook uses this macro rather than %__gzip.
+config_opts['macros']['%_man_info_compress'] = 'pigz -9 -n -p %{_smp_build_nthreads}'
+config_opts['macros']['%__bzip2'] = '/usr/bin/lbzip2'
+config_opts['macros']['%_binary_payload'] = 'w19T%{_smp_build_nthreads}.zstdio'
+config_opts['plugin_conf']['tmpfs_enable'] = True
+# Leave RAM for compilation: tmpfs is a limit, not a reservation.
+# Small builders fall back to disk; tune for large packages/concurrent jobs.
+config_opts['plugin_conf']['tmpfs_opts']['required_ram_mb'] = 8192
+config_opts['plugin_conf']['tmpfs_opts']['max_fs_size'] = '50%'
+config_opts['plugin_conf']['tmpfs_opts']['mode'] = '0755'
+config_opts['plugin_conf']['tmpfs_opts']['keep_mounted'] = False
 # repos
 dnf_conf = """
 
 [main]
+# Match the persistent directory mounted by Mock's yum_cache plugin.
 keepcache=1
-debuglevel=2a
+system_cachedir=/var/cache/dnf
+debuglevel=2
 reposdir=/dev/null
 logfile=/var/log/yum.log
 retries=20
@@ -32,7 +66,7 @@ assumeyes=1
 syslog_ident=mock
 syslog_device=
 install_weak_deps=0
-metadata_expire=-1
+metadata_expire=60
 best=1
 module_platform_id=platform:fc{{ releasever }}
 protected_packages=
@@ -54,7 +88,7 @@ repo_gpgcheck=0
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever
 enabled=1
 enabled_metadata=1
-metadata_expire=0
+metadata_expire=60
 
 [terra-extras]
 name=Terra $releasever (Extras)
@@ -66,7 +100,7 @@ gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releaseve
 enabled=1
 priority=150
 enabled_metadata=1
-metadata_expire=0
+metadata_expire=60
 
 [terra-nvidia]
 name=Terra $releasever (NVIDIA)
@@ -77,7 +111,7 @@ repo_gpgcheck=0
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-nvidia
 enabled=0
 enabled_metadata=1
-metadata_expire=0
+metadata_expire=60
 excludepkgs=dkms-nvidia*
 
 [terra-mesa]
@@ -89,7 +123,7 @@ repo_gpgcheck=0
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-mesa
 enabled=0
 enabled_metadata=1
-metadata_expire=0
+metadata_expire=60
 
 [terra-multimedia]
 name=Terra $releasever (Multimedia)
@@ -100,7 +134,7 @@ repo_gpgcheck=0
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-multimedia
 enabled=0
 enabled_metadata=1
-metadata_expire=0
+metadata_expire=60
 
 [local-rawhide-build]
 name=local-rawhide

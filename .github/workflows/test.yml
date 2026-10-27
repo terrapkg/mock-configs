@@ -39,6 +39,12 @@ jobs:
       - name: Include custom build template instead of package default
         run: cp -v mock-configs/terra*.tpl /etc/mock/templates/
 
+      - name: Validate Mock configs
+        run: /usr/bin/python3 -m unittest discover -s mock-configs/tests -v
+
+      - name: Install nosync
+        run: dnf install nosync -y
+
       - name: Build with Andaman
         run: anda build terra/mock-configs -c mock-configs/terra-${{ matrix.releasever }}-${{ matrix.arch }}.cfg
 
@@ -84,12 +90,15 @@ jobs:
       - name: Include custom build template instead of package default
         run: cp -v mock-configs/*.tpl /etc/mock/templates/
 
+      - name: Validate Mock configs
+        run: /usr/bin/python3 -m unittest discover -s mock-configs/tests -v
+
       - name: Build with Andaman
         run: anda build terra/mock-configs -c mock-configs/terra-el10-${{ matrix.arch }}.cfg
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
-          name: mock-configs-el10
+          name: mock-configs-el10-${{ matrix.arch }}
           compression-level: 0 # The RPMs are already compressed :p
           path: |
             anda-build/rpm/rpms/*
