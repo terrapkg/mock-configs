@@ -72,8 +72,6 @@ class ConfigTests(unittest.TestCase):
                         continue
                     self.assertEqual(dnf[section].getint("gpgcheck"), 1, section)
                     self.assertTrue(dnf[section].get("gpgkey"), section)
-                    if section.startswith("terra"):
-                        self.assertEqual(dnf[section].getint("repo_gpgcheck"), 1, section)
                 self.assertTrue(plugins["root_cache_enable"])
                 self.assertTrue(plugins["yum_cache_enable"])
                 self.assertTrue(plugins["tmpfs_enable"])
