@@ -12,7 +12,7 @@ config_opts['use_bootstrap'] = False
 #config_opts['bootstrap_image_ready'] = True
 config_opts['mirrored'] = config_opts['target_arch'] != 'i686'
 config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build /usr/bin/pigz /usr/bin/lbzip2'
-config_opts['chroot_additional_packages'] = ['anda-srpm-macros', 'terra-appstream-helper', 'mold']
+config_opts['chroot_additional_packages'] = ['anda-srpm-macros', 'terra-appstream-helper', 'lld']
 config_opts['plugin_conf']['root_cache_enable'] = True
 # Host-side pzstd permits parallel decoding as well as compression.
 # Keep a separate extension so an old single-frame cache is regenerated.
@@ -84,7 +84,7 @@ name=Terra $releasever
 metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever&arch=$basearch
 type=rpm
 gpgcheck=1
-repo_gpgcheck=1
+repo_gpgcheck=0
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever
 enabled=1
 enabled_metadata=1
@@ -95,7 +95,7 @@ name=Terra $releasever (Extras)
 metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-extras&arch=$basearch
 type=rpm
 gpgcheck=1
-repo_gpgcheck=1
+repo_gpgcheck=0
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-extras
 enabled=1
 priority=150
@@ -107,7 +107,7 @@ name=Terra $releasever (NVIDIA)
 metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-nvidia&arch=$basearch
 type=rpm
 gpgcheck=1
-repo_gpgcheck=1
+repo_gpgcheck=0
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-nvidia
 enabled=0
 enabled_metadata=1
@@ -119,7 +119,7 @@ name=Terra $releasever (Mesa)
 metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-mesa&arch=$basearch
 type=rpm
 gpgcheck=1
-repo_gpgcheck=1
+repo_gpgcheck=0
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-mesa
 enabled=0
 enabled_metadata=1
@@ -130,7 +130,7 @@ name=Terra $releasever (Multimedia)
 metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever-multimedia&arch=$basearch
 type=rpm
 gpgcheck=1
-repo_gpgcheck=1
+repo_gpgcheck=0
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-multimedia
 enabled=0
 enabled_metadata=1

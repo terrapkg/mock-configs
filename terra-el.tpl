@@ -103,7 +103,7 @@ metalink=https://tetsudou.fyralabs.com/metalink?repo=terrael{{ releasever }}&arc
 type=rpm
 skip_if_unavailable=True
 gpgcheck=1
-repo_gpgcheck=1
+repo_gpgcheck=0
 gpgkey=https://repos.fyralabs.com/terrael{{ releasever }}/key.asc
 enabled=1
 enabled_metadata=1
@@ -116,7 +116,7 @@ metadata_expire=60
 type=rpm
 gpgcheck=1
 gpgkey=https://repos.fyralabs.com/terrael{{ releasever }}-extras/key.asc
-repo_gpgcheck=1
+repo_gpgcheck=0
 enabled=0
 enabled_metadata=1
 priority=150

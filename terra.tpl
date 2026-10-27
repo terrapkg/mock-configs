@@ -9,7 +9,7 @@ config_opts['use_bootstrap'] = False
 #config_opts['bootstrap_image_ready'] = True
 config_opts['mirrored'] = config_opts['target_arch'] != 'i686'
 config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build /usr/bin/pigz /usr/bin/lbzip2'
-config_opts['chroot_additional_packages'] = ['anda-srpm-macros', 'terra-appstream-helper', 'mold', 'nosync']
+config_opts['chroot_additional_packages'] = ['anda-srpm-macros', 'terra-appstream-helper', 'lld', 'nosync']
 config_opts['plugin_conf']['root_cache_enable'] = True
 # Host-side pzstd permits parallel decoding as well as compression.
 # Keep a separate extension so an old single-frame cache is regenerated.
@@ -76,7 +76,7 @@ metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever&arch=$base
 type=rpm
 skip_if_unavailable=True
 gpgcheck=1
-repo_gpgcheck=1
+repo_gpgcheck=0
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever
 enabled=1
 enabled_metadata=1
@@ -91,7 +91,7 @@ metadata_expire=60
 type=rpm
 gpgcheck=1
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-extras
-repo_gpgcheck=1
+repo_gpgcheck=0
 enabled=1
 enabled_metadata=1
 priority=150
@@ -103,7 +103,7 @@ metadata_expire=60
 type=rpm
 gpgcheck=1
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-nvidia
-repo_gpgcheck=1
+repo_gpgcheck=0
 enabled=0
 enabled_metadata=1
 excludepkgs=dkms-nvidia*
@@ -115,7 +115,7 @@ metadata_expire=60
 type=rpm
 gpgcheck=1
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-mesa
-repo_gpgcheck=1
+repo_gpgcheck=0
 enabled=0
 enabled_metadata=1
 
@@ -126,7 +126,7 @@ metadata_expire=60
 type=rpm
 gpgcheck=1
 gpgkey=file:///usr/share/distribution-gpg-keys/terra/RPM-GPG-KEY-terra$releasever-multimedia
-repo_gpgcheck=1
+repo_gpgcheck=0
 enabled=0
 enabled_metadata=1
 
