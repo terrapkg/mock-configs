@@ -3,10 +3,14 @@ config_opts['package_manager'] = 'dnf'
 config_opts['nosync'] = True
 config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
 config_opts['plugin_conf']['root_cache_enable'] = True
-# Root caches are host-side; use fast, parallel zstd when installed.
-# Otherwise retain Mock's default compressor (including its pigz fallback).
 import os
-if os.path.exists('/usr/bin/zstd'):
+if os.path.exists('/usr/bin/pzstd'):
+    config_opts['plugin_conf']['root_cache_opts'].update({
+        'compress_program': '/usr/bin/pzstd -1',
+        'decompress_program': '/usr/bin/pzstd -d',
+        'extension': '.pzst',
+    })
+elif os.path.exists('/usr/bin/zstd'):
     config_opts['plugin_conf']['root_cache_opts'].update({
         'compress_program': '/usr/bin/zstd -T0 -1',
         'decompress_program': '/usr/bin/zstd -d',
@@ -19,10 +23,15 @@ config_opts['plugin_conf']['ccache_opts']['max_cache_size'] = '10G'
 #config_opts['chroot_setup_cmd'] = 'install @{% if mirrored %}buildsys-{% endif %}build'
 config_opts['chroot_setup_cmd'] = 'install bash bzip2 coreutils cpio diffutils redhat-release findutils gawk glibc-minimal-langpack grep gzip info patch redhat-rpm-config rpm-build sed tar unzip util-linux which xz epel-rpm-macros epel-release /usr/bin/pigz /usr/bin/lbzip2'
 config_opts['chroot_additional_packages'] = ['anda-srpm-macros', 'terra-appstream-helper']
+# Bake the compiler-cache tool into the baseline instead of reinstalling it
+# in the first BuildRequires transaction after every clean root restore.
+if config_opts['plugin_conf']['ccache_enable']:
+    config_opts['chroot_additional_packages'].append('ccache')
 config_opts['dist'] = 'el{{ releasever }}'  # only useful for --resultdir variable subst
 config_opts['bootstrap_image'] = 'ghcr.io/terrapkg/builder:el{{ releasever }}'
 config_opts['macros']['%__gzip'] = '/usr/bin/pigz'
 config_opts['macros']['%__bzip2'] = '/usr/bin/lbzip2'
+config_opts['macros']['%_binary_payload'] = 'w19T%{_smp_build_nthreads}.zstdio'
 config_opts['plugin_conf']['tmpfs_enable'] = True
 # Leave RAM for compilation: tmpfs is a limit, not a reservation.
 # Small builders fall back to disk; tune for large packages/concurrent jobs.
@@ -43,7 +52,7 @@ gpgcheck=0
 assumeyes=1
 syslog_ident=mock
 syslog_device=
-metadata_expire=0
+metadata_expire=60
 best=1
 install_weak_deps=0
 protected_packages=
@@ -98,12 +107,12 @@ repo_gpgcheck=1
 gpgkey=https://repos.fyralabs.com/terrael{{ releasever }}/key.asc
 enabled=1
 enabled_metadata=1
-metadata_expire=4h
+metadata_expire=60
 
 [terra-extras]
 name=Terra EL {{ releasever }} (Extras)
 metalink=https://tetsudou.fyralabs.com/metalink?repo=terrael{{ releasever }}-extras&arch={{ target_arch }}
-metadata_expire=6h
+metadata_expire=60
 type=rpm
 gpgcheck=1
 gpgkey=https://repos.fyralabs.com/terrael{{ releasever }}-extras/key.asc
